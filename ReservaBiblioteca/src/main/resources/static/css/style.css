@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #f5d27b;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+section {
+  margin-bottom: 30px;
+  padding: 15px;
+  background: #98e243;
+  border-radius: 8px;
+}
+
+button {
+  background: #3498db;
+  color: lab(33.26% 52.44 37.59 / 0.568), 0.568);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2980b9;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva Biblioteca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Sistema de Reserva de Biblioteca</h1>
+
+  <section>
+    <h2>Livros</h2>
+    <button onclick="listarLivros()">Listar Livros</button>
+    <ul id="lista-livros"></ul>
+  </section>
+
+  <section>
+    <h2>Empréstimos</h2>
+    <form onsubmit="registrarEmprestimo(event)">
+      <input type="number" id="usuarioId" placeholder="ID Usuário" required>
+      <input type="number" id="livroId" placeholder="ID Livro" required>
+      <button type="submit">Registrar Empréstimo</button>
+    </form>
+    <ul id="lista-emprestimos"></ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
