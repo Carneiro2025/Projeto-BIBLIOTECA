@@ -3,11 +3,10 @@ package com.example.ReservaBiblioteca.controller;
 import com.example.ReservaBiblioteca.dto.EmprestimoDTO;
 import com.example.ReservaBiblioteca.entity.Emprestimo;
 import com.example.ReservaBiblioteca.service.EmprestimoService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/emprestimos")
