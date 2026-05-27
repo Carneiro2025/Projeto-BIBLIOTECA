@@ -173,6 +173,10 @@ async function cadastrarLivro() {
     }
 }
 
+    botao.disabled = true;
+    botao.innerText = "Cadastrando...";
+
+} 
 async function listarLivros() {
 
     try {
@@ -422,7 +426,6 @@ document.addEventListener("DOMContentLoaded", () => {
     listarUsuarios();
 
     listarLivros();
-
     listarEmprestimos();
 
     listarLivrosEmprestados();
