@@ -3,6 +3,7 @@ package com.example.ReservaBiblioteca.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +22,24 @@ public class Usuario {
 
     private String contato;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Emprestimo> emprestimos = new ArrayList<>();
+    @Column(unique = true)
+    private String email;
 
-    // Getters e Setters
+    private String senha;
+
+    private String role;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "usuario",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Emprestimo> emprestimos =
+            new ArrayList<>();
+
+    // GETTERS E SETTERS
+
     public Long getId() {
         return id;
     }
@@ -62,7 +76,33 @@ public class Usuario {
         return emprestimos;
     }
 
-    public void setEmprestimos(List<Emprestimo> emprestimos) {
+    public void setEmprestimos(
+            List<Emprestimo> emprestimos
+    ) {
         this.emprestimos = emprestimos;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

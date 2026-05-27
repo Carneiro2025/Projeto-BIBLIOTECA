@@ -5,40 +5,31 @@ const API_EMPRESTIMO = "/api/emprestimos";
 /* =========================
    USUÁRIOS
 ========================= */
+
 async function cadastrarUsuario() {
 
     const usuario = {
-
         nome: document.getElementById("nomeUsuario").value,
-
         matricula: document.getElementById("matriculaUsuario").value,
-
         contato: document.getElementById("contatoUsuario").value
     };
 
     try {
 
         const response = await fetch(API_USUARIO, {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify(usuario)
         });
 
-        console.log("STATUS:", response.status);
-
-        if(response.ok) {
+        if (response.ok) {
 
             alert("Usuário cadastrado com sucesso!");
 
             document.getElementById("nomeUsuario").value = "";
-
             document.getElementById("matriculaUsuario").value = "";
-
             document.getElementById("contatoUsuario").value = "";
 
             listarUsuarios();
@@ -46,16 +37,12 @@ async function cadastrarUsuario() {
         } else {
 
             const erro = await response.text();
-
-            console.log(erro);
-
-            alert("Erro ao cadastrar usuário!");
+            alert(erro);
         }
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
-
         alert("Erro na requisição!");
     }
 }
@@ -68,17 +55,16 @@ async function listarUsuarios() {
 
         const usuarios = await response.json();
 
-        const lista =
-            document.getElementById("listaUsuarios");
+        const lista = document.getElementById("listaUsuarios");
+
+        if (!lista) return;
 
         lista.innerHTML = "";
 
         usuarios.forEach(usuario => {
 
             lista.innerHTML += `
-
                 <li>
-
                     ID: ${usuario.id} |
                     Nome: ${usuario.nome} |
                     Matrícula: ${usuario.matricula} |
@@ -87,11 +73,8 @@ async function listarUsuarios() {
                     <button
                         onclick="excluirUsuario(${usuario.id})"
                         class="btn-excluir">
-
                         Excluir
-
                     </button>
-
                 </li>
             `;
         });
@@ -107,23 +90,18 @@ async function excluirUsuario(id) {
     const confirmar =
         confirm("Deseja realmente excluir este usuário?");
 
-    if(!confirmar) {
-
-        return;
-    }
+    if (!confirmar) return;
 
     try {
 
         const response = await fetch(
-
             `${API_USUARIO}/${id}`,
-
             {
                 method: "DELETE"
             }
         );
 
-        if(response.ok) {
+        if (response.ok) {
 
             alert("Usuário excluído com sucesso!");
 
@@ -131,21 +109,22 @@ async function excluirUsuario(id) {
 
         } else {
 
-            alert("Usuário não tem permissão para exclusão!");
+            alert("Erro ao excluir usuário!");
         }
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
-
         alert("Erro na requisição!");
     }
 }
-/* ===========================
+
+/* =========================
    LIVROS
-=========================== */
+========================= */
 
 async function cadastrarLivro() {
+
     const livro = {
         titulo: document.getElementById("tituloLivro").value,
         autor: document.getElementById("autorLivro").value,
@@ -156,27 +135,41 @@ async function cadastrarLivro() {
     };
 
     try {
+
         const response = await fetch(API_LIVRO, {
+
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
             body: JSON.stringify(livro)
         });
 
         if (response.ok) {
+
             alert("Livro cadastrado com sucesso!");
+
             document.getElementById("tituloLivro").value = "";
             document.getElementById("autorLivro").value = "";
             document.getElementById("isbnLivro").value = "";
             document.getElementById("categoriaLivro").value = "";
             document.getElementById("editoraLivro").value = "";
             document.getElementById("anoLivro").value = "";
+
             listarLivros();
+
         } else {
-            alert("Erro ao cadastrar livro");
+
+            const erro = await response.text();
+            alert(erro);
         }
+
     } catch (error) {
+
         console.error(error);
-        alert("Erro na requisição");
+        alert("Erro na requisição!");
     }
 }
 
@@ -188,31 +181,28 @@ async function listarLivros() {
 
         const livros = await response.json();
 
-        const lista =
-            document.getElementById("listaLivros");
+        const lista = document.getElementById("listaLivros");
+
+        if (!lista) return;
 
         lista.innerHTML = "";
 
         livros.forEach(livro => {
 
             lista.innerHTML += `
-
                 <li>
-
                     ID: ${livro.id} |
                     Título: ${livro.titulo} |
                     Autor: ${livro.autor} |
                     ISBN: ${livro.isbn} |
-                    Categoria: ${livro.categoria}
+                    Categoria: ${livro.categoria} |
+                    Status: ${livro.status}
 
                     <button
                         onclick="excluirLivro(${livro.id})"
                         class="btn-excluir">
-
                         Excluir
-
                     </button>
-
                 </li>
             `;
         });
@@ -228,23 +218,18 @@ async function excluirLivro(id) {
     const confirmar =
         confirm("Deseja realmente excluir este livro?");
 
-    if(!confirmar) {
-
-        return;
-    }
+    if (!confirmar) return;
 
     try {
 
         const response = await fetch(
-
             `${API_LIVRO}/${id}`,
-
             {
                 method: "DELETE"
             }
         );
 
-        if(response.ok) {
+        if (response.ok) {
 
             alert("Livro excluído com sucesso!");
 
@@ -255,143 +240,192 @@ async function excluirLivro(id) {
             alert("Erro ao excluir livro!");
         }
 
-    } catch(error) {
+    } catch (error) {
 
         console.error(error);
-
         alert("Erro na requisição!");
     }
 }
 
-/* ===========================
+/* =========================
    EMPRÉSTIMOS
-=========================== */
+========================= */
 
 async function registrarEmprestimo() {
+
     const emprestimo = {
-        usuarioId: parseInt(document.getElementById("usuarioId").value),
-        livroId: parseInt(document.getElementById("livroId").value)
+
+        usuarioId: parseInt(
+            document.getElementById("usuarioId").value
+        ),
+
+        livroId: parseInt(
+            document.getElementById("livroId").value
+        )
     };
 
     try {
+
         const response = await fetch(API_EMPRESTIMO, {
+
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
             body: JSON.stringify(emprestimo)
         });
 
         if (response.ok) {
+
             alert("Empréstimo registrado com sucesso!");
+
             document.getElementById("usuarioId").value = "";
             document.getElementById("livroId").value = "";
+
             listarEmprestimos();
+            listarLivros();
+            listarLivrosEmprestados();
+
         } else {
-            alert("Erro empréstimo em duplicidade!!!");
+
+            const erro = await response.text();
+            alert(erro);
         }
+
     } catch (error) {
+
         console.error(error);
-        alert("Erro na requisição");
+        alert("Erro na requisição!");
     }
 }
 
 async function devolverEmprestimo() {
-    const id = document.getElementById("emprestimoId").value;
+
+    const id =
+        document.getElementById("emprestimoId").value;
 
     try {
-        const response = await fetch(`${API_EMPRESTIMO}/${id}/devolucao`, {
-            method: "PUT"
-        });
+
+        const response = await fetch(
+            `${API_EMPRESTIMO}/${id}/devolucao`,
+            {
+                method: "PUT"
+            }
+        );
 
         if (response.ok) {
-            alert("Empréstimo devolvido com sucesso!");
+
+            alert("Livro devolvido com sucesso!");
+
             document.getElementById("emprestimoId").value = "";
+
             listarEmprestimos();
+            listarLivros();
+            listarLivrosEmprestados();
+
         } else {
-            alert("Erro ao devolver empréstimo");
+
+            alert("Erro ao devolver empréstimo!");
         }
+
     } catch (error) {
+
         console.error(error);
-        alert("Erro na requisição");
+        alert("Erro na requisição!");
     }
 }
 
 async function listarEmprestimos() {
-  try {
-    const response = await fetch(API_EMPRESTIMO);
-    const emprestimos = await response.json();
-    const lista = document.getElementById("historicoEmprestimosLista"); // novo id
-    if (!lista) return;
 
-    lista.innerHTML = "";
-    emprestimos.forEach(e => {
-      lista.innerHTML += `
-        <li>
-          ID: ${e.id} |
-          Usuário: ${e.usuario?.nome} |
-          Livro: ${e.livro?.titulo} |
-          Devolvido: ${e.devolvido}
-        </li>
-      `;
-    });
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+
+        const response = await fetch(API_EMPRESTIMO);
+
+        const emprestimos = await response.json();
+
+        const lista =
+            document.getElementById("historicoEmprestimosLista");
+
+        if (!lista) return;
+
+        lista.innerHTML = "";
+
+        emprestimos.forEach(e => {
+
+            lista.innerHTML += `
+                <li>
+                    ID: ${e.id} |
+                    Usuário: ${e.usuario?.nome} |
+                    Livro: ${e.livro?.titulo} |
+                    Devolvido: ${e.devolvido}
+                </li>
+            `;
+        });
+
+    } catch (error) {
+
+        console.error(error);
+    }
 }
 
-
 async function listarLivrosEmprestados() {
-  try {
-    const response = await fetch(API_LIVRO);
-    const livros = await response.json();
-    const lista = document.getElementById("listaLivrosEmprestados");
-    if (!lista) return;
 
-    lista.innerHTML = "";
-    livros
-      .filter(livro => livro.status === "EMPRESTADO") // só emprestados
-      .forEach(livro => {
-        lista.innerHTML += `
-          <li>
-            ID: ${livro.id} |
-            Título: ${livro.titulo} |
-            Autor: ${livro.autor} |
-            ISBN: ${livro.isbn} |
-            Categoria: ${livro.categoria} |
-            Status: ${livro.status}
-          </li>
-        `;
-      });
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+
+        const response = await fetch(API_LIVRO);
+
+        const livros = await response.json();
+
+        const lista =
+            document.getElementById("listaLivrosEmprestados");
+
+        if (!lista) return;
+
+        lista.innerHTML = "";
+
+        livros
+            .filter(livro => livro.status === "EMPRESTADO")
+            .forEach(livro => {
+
+                lista.innerHTML += `
+                    <li>
+                        ID: ${livro.id} |
+                        Título: ${livro.titulo} |
+                        Autor: ${livro.autor} |
+                        Status: ${livro.status}
+                    </li>
+                `;
+            });
+
+    } catch (error) {
+
+        console.error(error);
+    }
 }
 
 function logout() {
-  // Se tiver autenticação, aqui você limpa o token/sessionStorage/localStorage
-  // Exemplo simples:
-  sessionStorage.clear();
-  localStorage.clear();
 
-  // Redireciona para a página inicial ou login
-  window.location.href = "/login.html";
+    sessionStorage.clear();
+    localStorage.clear();
+
+    window.location.href = "/login.html";
 }
 
 /* =========================
-   INICIAR CONDICIONAL
+   INICIALIZAÇÃO
 ========================= */
 
-// Só chama se o elemento existir na página
-if (document.getElementById("listaUsuarios")) {
-    listarUsuarios();
-}
-if (document.getElementById("listaLivros")) {
-    listarLivros();
-}
-if (document.getElementById("emprestimosLista")) {   // ajuste aqui
-    listarEmprestimos();
-}
-if (document.getElementById("listaLivrosEmprestados")) { // novo ajuste
-    listarLivrosEmprestados();
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-console.log("JS CARREGADO");
+    listarUsuarios();
+
+    listarLivros();
+
+    listarEmprestimos();
+
+    listarLivrosEmprestados();
+
+    console.log("JS CARREGADO");
+});
