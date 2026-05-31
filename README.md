@@ -99,13 +99,11 @@ PUT /api/emprestimos/{id}/devolucao → devolver empréstimo
 
 Autores
 
-- Rafael Carneiro
+- Rafael Carneiro da Silva - Matricula: 2025198598
+
+- Bruno José Rufino Ferreira - Matricula: 2021131257
 
 - Douglas Oliveira
-
-- Bruno Ferreira
-
-
 
 
 
