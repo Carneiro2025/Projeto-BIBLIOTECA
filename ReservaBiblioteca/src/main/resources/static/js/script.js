@@ -163,6 +163,10 @@ async function cadastrarLivro() {
     }
 }
 
+    botao.disabled = true;
+    botao.innerText = "Cadastrando...";
+
+} 
 async function listarLivros() {
 
     const lista = document.getElementById("listaLivros");
