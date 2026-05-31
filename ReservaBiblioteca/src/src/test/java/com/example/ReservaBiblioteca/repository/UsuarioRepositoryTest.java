@@ -28,4 +28,41 @@ public class UsuarioRepositoryTest {
 
         assertNotNull(usuarioSalvo.getId());
     }
+
+    @Test
+    void deveBuscarUsuarioPorMatricula() {
+
+    Usuario usuario = new Usuario();
+
+    usuario.setNome("Rafael");
+    usuario.setMatricula("2025001");
+    usuario.setEmail("rafael@email.com");
+
+    usuarioRepository.save(usuario);
+
+    Usuario encontrado =
+            usuarioRepository.findByMatricula("2025001");
+
+    assertNotNull(encontrado);
+    assertEquals("Rafael", encontrado.getNome());
+   }
+
+    @Test
+    void deveBuscarUsuarioPorEmail() {
+
+    Usuario usuario = new Usuario();
+
+    usuario.setNome("Admin");
+    usuario.setMatricula("9999");
+    usuario.setEmail("admin@email.com");
+
+    usuarioRepository.save(usuario);
+
+    var encontrado =
+            usuarioRepository.findByEmail("admin@email.com");
+
+    assertTrue(encontrado.isPresent());
+    assertEquals("Admin", encontrado.get().getNome());
+}
+
 }

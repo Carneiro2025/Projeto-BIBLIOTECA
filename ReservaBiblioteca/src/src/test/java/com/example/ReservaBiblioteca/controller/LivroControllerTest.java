@@ -190,4 +190,20 @@ void deveExcluirLivro() throws Exception {
 
             .andExpect(status().isNoContent());
 }
+
+/* =====================================================
+   TESTE DE EXCEÇÃO
+===================================================== */
+
+@Test
+void deveRetornar404QuandoLivroNaoExiste() throws Exception {
+
+    when(livroService.buscarPorId(99L))
+            .thenThrow(new com.example.ReservaBiblioteca.exception.LivroNaoEncontradoException(
+                    "Livro não encontrado"));
+
+    mockMvc.perform(get("/api/livros/99"))
+            .andExpect(status().isNotFound());
+}
+
 }

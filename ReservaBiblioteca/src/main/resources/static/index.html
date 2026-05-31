@@ -21,30 +21,56 @@
         <li><a href="/liv.html">Cadastro de Livros</a></li>
         <li><a href="/dev.html">Devolver Empréstimo</a></li>
         <li><button onclick="logout()">Sair</button></li>
-
     </ul>
 </nav>
 
 <main>
+
+    <!-- REGISTRAR EMPRÉSTIMO -->
     <section id="emprestimos" class="card">
-     <h2>Registrar Empréstimo</h2>
-     <input type="number" id="usuarioId" placeholder="ID Usuário">
-     <input type="number" id="livroId" placeholder="ID Livro">
-     <button onclick="registrarEmprestimo()">Registrar Empréstimo</button>
-    </section>
-    <br>
-    <section id="historicoEmprestimos" class="card">
-    <h3>Histórico dos Empréstimos</h3>
-    <button onclick="listarEmprestimos()">Atualizar Lista</button>
-    <ul id="historicoEmprestimosLista"></ul>
+        <h2>Registrar Empréstimo</h2>
+
+        <input type="number" id="usuarioId" placeholder="ID Usuário">
+
+        <input type="number" id="livroId" placeholder="ID Livro">
+
+        <!-- DATA EMPRÉSTIMO -->
+        <label for="dataEmprestimo">Data do Empréstimo</label>
+        <input type="date" id="dataEmprestimo">
+
+        <button onclick="registrarEmprestimo()">
+            Registrar Empréstimo
+        </button>
     </section>
 
-     <br>
-     <section class="card">
-     <h4>Livros Emprestados</h4>
-     <button onclick="listarLivrosEmprestados()">Atualizar Lista</button>
-     <ul id="listaLivrosEmprestados"></ul>
+    <br>
+
+    <!-- HISTÓRICO -->
+<section id="historicoEmprestimos" class="card">
+
+    <h3>Histórico dos Empréstimos</h3>
+
+    <button onclick="listarEmprestimos()">
+        Atualizar Lista
+    </button>
+
+    <ul id="historicoEmprestimosLista"></ul>
+
+</section>
+
+    <br>
+
+    <!-- LIVROS EMPRESTADOS -->
+    <section class="card">
+        <h4>Livros Emprestados</h4>
+
+        <button onclick="listarLivrosEmprestados()">
+            Atualizar Lista
+        </button>
+
+        <ul id="listaLivrosEmprestados"></ul>
     </section>
+
 </main>
 
 <script src="/js/script.js"></script>

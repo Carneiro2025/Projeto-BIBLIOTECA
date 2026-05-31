@@ -25,6 +25,9 @@ class LivroServiceTest {
     @InjectMocks
     private LivroService livroService;
 
+    @Mock
+    private LivroMapper livroMapper;
+
     @Test
     void deveCadastrarLivro() {
 
@@ -59,4 +62,45 @@ class LivroServiceTest {
 
         assertEquals("DISPONIVEL", resultado.getStatus());
     }
+
+    @Test
+    void deveBuscarLivroPorId() {
+
+    Livro livro = new Livro();
+    livro.setId(1L);
+    livro.setTitulo("Java");
+
+    LivroDTO dto = new LivroDTO();
+    dto.setId(1L);
+    dto.setTitulo("Java");
+
+    when(livroRepository.findById(1L))
+            .thenReturn(Optional.of(livro));
+
+    when(livroMapper.toDTO(livro))
+            .thenReturn(dto);
+
+    LivroDTO resultado =
+            livroService.buscarPorId(1L);
+
+    assertNotNull(resultado);
+    assertEquals("Java", resultado.getTitulo());
+}
+
+@Test
+    void deveLancarExcecaoQuandoLivroNaoExistir() {
+
+        // ARRANGE
+        Long idInexistente = 999L;
+
+        when(livroRepository.findById(idInexistente))
+                .thenReturn(Optional.empty());
+
+        // ACT + ASSERT
+        assertThrows(
+                RuntimeException.class,
+                () -> livroService.editar(idInexistente, new LivroDTO())
+        );
+    }
+
 }

@@ -2,6 +2,8 @@ package com.example.ReservaBiblioteca.service;
 
 import com.example.ReservaBiblioteca.dto.LivroDTO;
 import com.example.ReservaBiblioteca.entity.Livro;
+import com.example.ReservaBiblioteca.entity.Status;
+import com.example.ReservaBiblioteca.exception.LivroNaoEncontradoException;
 import com.example.ReservaBiblioteca.mapper.LivroMapper;
 import com.example.ReservaBiblioteca.repository.LivroRepository;
 
@@ -24,7 +26,7 @@ public class LivroService {
     }
 
     // =========================
-    // LISTAR
+    // LISTAR TODOS
     // =========================
 
     public List<LivroDTO> listarTodos() {
@@ -43,6 +45,9 @@ public class LivroService {
 
         Livro livro = livroMapper.toEntity(dto);
 
+        // Status padrão
+        livro.setStatus(Status.DISPONIVEL);
+
         Livro salvo = livroRepository.save(livro);
 
         return livroMapper.toDTO(salvo);
@@ -60,11 +65,36 @@ public class LivroService {
         return livroRepository.findAll()
                 .stream()
                 .filter(livro ->
-                        livro.getTitulo().contains(titulo) ||
-                        livro.getAutor().contains(autor) ||
-                        livro.getIsbn().contains(isbn))
+
+                (titulo == null || titulo.isBlank()
+                        || livro.getTitulo().toLowerCase()
+                                .contains(titulo.toLowerCase()))
+
+                        ||
+
+                        (autor == null || autor.isBlank()
+                                || livro.getAutor().toLowerCase()
+                                        .contains(autor.toLowerCase()))
+
+                        ||
+
+                        (isbn == null || isbn.isBlank()
+                                || livro.getIsbn().contains(isbn)))
                 .map(livroMapper::toDTO)
                 .toList();
+    }
+
+    // =========================
+    // BUSCAR POR ID
+    // =========================
+
+    public LivroDTO buscarPorId(Long id) {
+
+        Livro livro = livroRepository.findById(id)
+                .orElseThrow(() -> new LivroNaoEncontradoException(
+                        "Livro não encontrado com ID: " + id));
+
+        return livroMapper.toDTO(livro);
     }
 
     // =========================
@@ -74,8 +104,8 @@ public class LivroService {
     public LivroDTO editar(Long id, LivroDTO dto) {
 
         Livro livro = livroRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Livro não encontrado"));
+                .orElseThrow(() -> new LivroNaoEncontradoException(
+                        "Livro não encontrado com ID: " + id));
 
         livro.setTitulo(dto.getTitulo());
         livro.setAutor(dto.getAutor());
@@ -83,6 +113,10 @@ public class LivroService {
         livro.setCategoria(dto.getCategoria());
         livro.setEditora(dto.getEditora());
         livro.setAno(dto.getAno());
+
+        if (livro.getStatus() == null) {
+            livro.setStatus(Status.DISPONIVEL);
+        }
 
         Livro atualizado = livroRepository.save(livro);
 
@@ -94,6 +128,12 @@ public class LivroService {
     // =========================
 
     public void excluir(Long id) {
+
+        if (!livroRepository.existsById(id)) {
+
+            throw new LivroNaoEncontradoException(
+                    "Livro não encontrado com ID: " + id);
+        }
 
         livroRepository.deleteById(id);
     }
