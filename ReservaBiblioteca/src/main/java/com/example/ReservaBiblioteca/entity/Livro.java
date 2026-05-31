@@ -33,7 +33,7 @@ public class Livro {
     private String categoria;
 
     @Enumerated(EnumType.STRING)
-    private Status status; // DISPONIVEL ou EMPRESTADO
+    private Status status = Status.DISPONIVEL;
 
     // Getters e Setters
     public Long getId() { return id; }

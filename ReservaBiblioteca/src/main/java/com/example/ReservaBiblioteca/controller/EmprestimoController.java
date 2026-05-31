@@ -1,48 +1,57 @@
 package com.example.ReservaBiblioteca.controller;
 
 import com.example.ReservaBiblioteca.dto.EmprestimoDTO;
-import com.example.ReservaBiblioteca.entity.Emprestimo;
+import com.example.ReservaBiblioteca.dto.EmprestimoResponseDTO;
 import com.example.ReservaBiblioteca.service.EmprestimoService;
-import java.util.List;
+
 import jakarta.validation.Valid;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/emprestimos")
-
+@CrossOrigin(origins = "*")
 public class EmprestimoController {
 
     private final EmprestimoService emprestimoService;
 
-    // Construtor para injeção de dependência
     public EmprestimoController(EmprestimoService emprestimoService) {
         this.emprestimoService = emprestimoService;
     }
 
-    // Endpoint para registrar um novo empréstimo
     @PostMapping
-    public ResponseEntity<Emprestimo> registrar(@RequestBody @Valid EmprestimoDTO dto) {
+    public ResponseEntity<EmprestimoResponseDTO> registrar(
+            @Valid @RequestBody EmprestimoDTO dto) {
 
-        Emprestimo emprestimo = emprestimoService.criarEmprestimo(dto);
+        EmprestimoResponseDTO response =
+                emprestimoService.criarEmprestimo(dto);
 
-        return ResponseEntity.ok(emprestimo);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
-    // Endpoint para devolver/finalizar um empréstimo
     @PutMapping("/{id}/devolucao")
-    public ResponseEntity<Emprestimo> devolver(@PathVariable Long id) {
+    public ResponseEntity<EmprestimoResponseDTO> devolver(
+            @PathVariable Long id) {
 
-        Emprestimo emprestimo = emprestimoService.finalizarEmprestimo(id);
+        EmprestimoResponseDTO response =
+                emprestimoService.finalizarEmprestimo(id);
 
-        return ResponseEntity.ok(emprestimo);
+        return ResponseEntity.ok(response);
     }
 
-    // Endpoint para listar todos os empréstimos
     @GetMapping
-    public ResponseEntity<List<Emprestimo>> listar() {
-        List<Emprestimo> emprestimos = emprestimoService.listarEmprestimos();
-        return ResponseEntity.ok(emprestimos);
+    public ResponseEntity<List<EmprestimoResponseDTO>> listar() {
+
+        List<EmprestimoResponseDTO> lista =
+                emprestimoService.listarEmprestimos();
+
+        return ResponseEntity.ok(lista);
     }
 }
