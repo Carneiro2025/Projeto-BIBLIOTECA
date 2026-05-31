@@ -163,6 +163,10 @@ async function cadastrarLivro() {
     }
 }
 
+    botao.disabled = true;
+    botao.innerText = "Cadastrando...";
+
+} 
 async function listarLivros() {
 
     const lista = document.getElementById("listaLivros");
@@ -410,6 +414,16 @@ function logout() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
+<<<<<<< HEAD
+=======
+    listarUsuarios();
+
+    listarLivros();
+    listarEmprestimos();
+
+    listarLivrosEmprestados();
+
+>>>>>>> 3e9d01d4a54cd1bca7f915f3277fc0a483126506
     console.log("JS CARREGADO");
 
     if (document.getElementById("listaUsuarios")) {
