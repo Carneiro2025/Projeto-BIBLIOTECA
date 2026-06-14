@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Biblioteca</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Sistema de Biblioteca</h1>
+    <img src="/img/Logo.png" alt="Logo">
+</header>
+
+<nav>
+    <h2>Menu</h2>
+
+    <ul>
+        <li><a href="/user.html">Cadastro de Usuários</a></li>
+        <li><a href="/liv.html">Cadastro de Livros</a></li>
+        <li><a href="/dev.html">Devolver Empréstimo</a></li>
+        <li><button onclick="logout()">Sair</button></li>
+    </ul>
+</nav>
+
+<main>
+
+    <!-- REGISTRAR EMPRÉSTIMO -->
+    <section id="emprestimos" class="card">
+
+        <h2>Registrar Empréstimo</h2>
+
+        <input
+                type="number"
+                id="usuarioId"
+                placeholder="ID do Usuário">
+
+        <input
+                type="number"
+                id="livroId"
+                placeholder="ID do Livro">
+
+        <button onclick="registrarEmprestimo()">
+            Registrar Empréstimo
+        </button>
+
+    </section>
+
+    <br>
+
+    <!-- HISTÓRICO -->
+    <section id="historicoEmprestimos" class="card">
+
+        <h2>Histórico de Empréstimos</h2>
+
+        <button onclick="listarEmprestimos()">
+            Atualizar Lista
+        </button>
+
+        <ul id="historicoEmprestimosLista"></ul>
+
+    </section>
+
+    <br>
+
+    <!-- LIVROS EMPRESTADOS -->
+    <section class="card">
+
+        <h2>Livros Emprestados</h2>
+
+        <button onclick="listarLivrosEmprestados()">
+            Atualizar Lista
+        </button>
+
+        <ul id="listaLivrosEmprestados"></ul>
+
+    </section>
+
+</main>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>
